@@ -1,6 +1,33 @@
 # Digital-broadcasting
 
-###Imaging basics
+###Middle term project
+
+The goal of the project is to develop image transmission software that uses RTP as a transport. Before the transmission an image is compressed. 
+
+The project employs RTP transmission software we studied before, and color compression that employs imperfections in human visual system. Thus, the software should include the following functionality
+
+* Reading and writing PBM files
+* Color space conversion RGB to YCbCr and YCbCr to RGB
+* Down and upsampling
+* Sending and receiving data using RTP
+
+For simplicity assume that receiver knows parameters of the image being transmitted. Make sure that the image is transmitted in a compressed form.
+
+The main function of the sender can be represented in the flow chart shown below:
+`Read a PBM image --> Convert to YCbCr --> Downsample Cb and Cr --> Send using RTP`
+
+The main function of the receiver can be represented in the flow chart shown below:
+
+`Receive using RTP --> Upsample --> Convert to RGB --> Write to a PBM file`
+
+
+You have to decide how compressed image is transmitted. Either every channel is transmitted separately i.e. with three different rtp_send_packets calls, or first you combine three color channels Y, Cb and Cr into a contiguous memory block and then send it at once.
+
+The submitted source codes should contain substantial amount of comments.
+
+
+
+###Lab: Imaging basics
 
 ######Problem 1: Implement two function for reading and writing of the P5 and P6 type of PGM files i.e. binary and either grayscale or color images
 
@@ -52,7 +79,7 @@ Implement a function that accepts two argumetns, which is an original image and 
 * Calculate PSNR between original RGB image and the reconstructed one.
 
 
-###Real-time Transfer Protocol
+###Lab: Real-time Transfer Protocol
 
 ######Problem 1:  Download the source codes attached. Build sender and receiver. To build use the following commands in the terminal:
 __gcc receiver.c rtp.c -o receiver__
@@ -72,7 +99,7 @@ Select an image file of your choice, and execute the receiver as follows
 
 ######Problem 2:  Study source codes very carefully and add detailed comments for as many statements as you think is necessary, keeping in mind that the more the better. The goal of this problem is to understand the codes in depth.  
 
-###Information theory
+###Lab: Information theory
 
 ######Problem 1: Implement a function that calculates the information entropy (Shannon entropy) of a given data.
 
@@ -100,7 +127,7 @@ int main() {
 ```
 * Use two PBM files attached as inputs for your program, compare the entropies of the content of each file.
 
-######Problem 2: Compare Shannon's entropy and Kolmogorov's complexity
+######Problem 2: Compare the Shannon's entropy and the Kolmogorov's complexity
 
 Modify your program in such way that its source size is minimized, then calculate its entropy and Kolmogorov complexity then compare them with the original code’s entropies and Kolmogorov complexity.
 
