@@ -1,5 +1,56 @@
 # Digital-broadcasting
 
+###Imaging basics
+
+######Problem 1: Implement two function for reading and writing of the P5 and P6 type of PGM files i.e. binary and either grayscale or color images
+
+The header for PGM files is defined as a C structure
+
+```
+struct image_header{
+    char format[3]; //Image format, example: P5
+    int rows;       //Image height
+    int cols;       //Image width
+    int levels;     //Number of gray/each color levels
+};
+```
+
+######Problem 2: Implement RGB to YCbCr and YCbCr to RGB color space conversion
+
+The formulas for converion RGB to YCbCr color spaces using integer arithmetics is given below
+```
+Y = ( 19595 * R + 38470 * G + 7471 * B ) >> 16;
+Cb = ( 36962 * ( B - Y ) >> 16) + 128;
+Cr = (46727 * ( R - Y ) >> 16) + 128;
+```
+and for coverting back to RGB from YCbCr is as follows
+```
+R = Y + (91881 * Cr >> 16) - 179;
+G = Y -( ( 22544 * Cb + 46793 * Cr ) >> 16) + 135;
+B = Y + (116129 * Cb >> 16) - 226;
+```
+######Problem 3: Image down- and up-sampling
+Implement two functions. The first function accepts a YCbCr image and returns downsampled Cb and Cr channels according to 4:2:0 scheme.
+
+The second function acceptes downsampled version of YCbCr image and upsamples it by simply copying each value to the four nearest neighbors in up-sampled image.
+[logo]: http://i.stack.imgur.com/768xM.png
+
+######Problem 4: Calculate PSNR
+Implement a function that accepts two argumetns, which is an original image and areconstructed image and returns Peak Signal-to-Noise Ratio (PSNR). The PSNR is calcualted as follows
+
+`MSE = (1/(m*n))*sum(sum((f-g).^2))`
+
+`PSNR = 20*log(max(max(f)))/((MSE)^0.5)`
+
+######Problem 5: Test of the above function.
+
+* Read a color PPM image.
+* Convert RGB image to YCbCr.
+* Down-sample YCbCr to 4:2:0, i.e. uses the 2:1 horizontal downsampling and the 2:1 vertical downsampling. You will irreversibly lose information here.
+* Up-sample Cb and Cr channels to the original resolution
+* Convert obtained YCbCr image to RGB image.
+* Calculate PSNR between original RGB image and the reconstructed one.
+
 
 ###Real-time Transfer Protocol
 
@@ -21,15 +72,15 @@ Select an image file of your choice, and execute the receiver as follows
 
 ######Problem 2:  Study source codes very carefully and add detailed comments for as many statements as you think is necessary, keeping in mind that the more the better. The goal of this problem is to understand the codes in depth.  
 
-###Informaation theory
+###Information theory
 
 ######Problem 1: Implement a function that calculates the information entropy (Shannon entropy) of a given data.
 
-1. To test the implemented code for entropy estimation, use the source code program as an input:
+* To test the implemented code for entropy estimation, use the source code program as an input:
 
 __./entropy < main.c__
 
-2. Generate a 10000 bytes file with random characters. Use the following code
+* Generate a 10000 bytes file with random characters. Use the following code
 
 ```
 //randtest.cpp: Generates 10000 bytes of data
@@ -47,7 +98,7 @@ int main() {
     return 0;
 }
 ```
-3. Use two PBM files attached as inputs for your program, compare the entropies of the content of each file.
+* Use two PBM files attached as inputs for your program, compare the entropies of the content of each file.
 
 ######Problem 2: Compare Shannon's entropy and Kolmogorov's complexity
 
