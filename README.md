@@ -22,7 +22,7 @@ The main function of the receiver can be represented in the flow chart shown bel
 `Receive using RTP --> Upsample --> Convert to RGB --> Write to a PBM file`
 
 
-You have to decide how compressed image is transmitted. Either every channel is transmitted separately i.e. with three different rtp_send_packets calls, or first you combine three color channels Y, Cb and Cr into a contiguous memory block and then send it at once.
+You have to decide how compressed image is transmitted. Either every channel is transmitted separately i.e. with three different `rtp_send_packets calls`, or first you combine three color channels Y, Cb and Cr into a contiguous memory block and then send it at once.
 
 The submitted source codes should contain substantial amount of comments.
 
