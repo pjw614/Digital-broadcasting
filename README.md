@@ -14,6 +14,7 @@ The project employs RTP transmission software we studied before, and color compr
 For simplicity assume that receiver knows parameters of the image being transmitted. Make sure that the image is transmitted in a compressed form.
 
 The main function of the sender can be represented in the flow chart shown below:
+
 `Read a PBM image --> Convert to YCbCr --> Downsample Cb and Cr --> Send using RTP`
 
 The main function of the receiver can be represented in the flow chart shown below:

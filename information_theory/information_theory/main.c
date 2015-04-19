@@ -1,62 +1,48 @@
-
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
-void main(){char d[1048576];int l,h[256],i,c;
-    float H;while((c = getchar())!=0)d[l++] = c;
-    for(i=0;i<l;i++)h[(int)d[i]]++;
-    for(i=0;i<256;i++)
-        if (h[i])H-=(float)h[i]/l*log2((float)h[i]/l);
-    printf("%f\n",H);}
 
+#define MAXLEN 1048576 //maximum data size is 1Mb
+#define ALPHABET_SIZE 256
+//estimate P(s_i)
+void makehist(unsigned char *data,int *hist,int length){
+    int i,histlen;
+    histlen = 0;
+    //Build the histogram
+    for(i = 0; i < length; i++)
+        hist[ (unsigned)data[i] ]++;
+    //Calcualte a number of different symobls in the data
+    for (i = 0; i < ALPHABET_SIZE; i++)
+        if (hist[i] != 0) histlen++;
+}
 
+double entropy(int *hist,int len){
+    int i;
+    double H;
+    H=0;
+    for(i = 0; i < ALPHABET_SIZE; i++)
+        if (hist[i] != 0) // Only consider the symbols at appear at lest once
+            //The probbaility is estimated as P(s_i) = (double)hist[i] / len
+            H -= (double)hist[i] / len * log2((double)hist[i] / len);
+    
+    return H;
+}
 
+int main(void){
+    unsigned char data[MAXLEN];
+    int len, hist[ALPHABET_SIZE], c;
+    double H;
 
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <math.h>
-//
-//#define MAXLEN 1048576 //maximum data size is 1Mb
-//#define ALPHABET_SIZE 256
-////estimate P(s_i)
-//void makehist(unsigned char *data,int *hist,int length){
-//    int i,histlen;
-//    histlen = 0;
-//    //Build the histogram
-//    for(i = 0; i < length; i++)
-//        hist[ (unsigned)data[i] ]++;
-//    //Calcualte a number of different symobls in the data
-//    for (i = 0; i < ALPHABET_SIZE; i++)
-//        if (hist[i] != 0) histlen++;
-//}
-//
-//double entropy(int *hist,int len){
-//    int i;
-//    double H;
-//    H=0;
-//    for(i = 0; i < ALPHABET_SIZE; i++)
-//        if (hist[i] != 0) // Only consider the symbols at appear at lest once
-//            //The probbaility is estimated as P(s_i) = (double)hist[i] / len
-//            H -= (double)hist[i] / len * log2((double)hist[i] / len);
-//    
-//    return H;
-//}
-//
-//int main(void){
-//    unsigned char data[MAXLEN];
-//    int len, hist[ALPHABET_SIZE], c;
-//    double H;
-//
-//    while ((c = getchar()) != EOF)
-//        data[len++] = c;
-//    
-//    makehist(data,hist,len);
-//    
-//    H = entropy(hist,len);
-//    printf("%lf\n",H);
-//    return 0;
-//}
-//
+    while ((c = getchar()) != EOF)
+        data[len++] = c;
+    
+    makehist(data,hist,len);
+    
+    H = entropy(hist,len);
+    printf("%lf\n",H);
+    return 0;
+}
+
 
 
 //#include <stdio.h>
