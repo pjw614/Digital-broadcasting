@@ -61,7 +61,7 @@ B = Y + (116129 * Cb >> 16) - 226;
 Implement two functions. The first function accepts a YCbCr image and returns downsampled Cb and Cr channels according to 4:2:0 scheme.
 
 The second function acceptes downsampled version of YCbCr image and upsamples it by simply copying each value to the four nearest neighbors in up-sampled image.
-(http://i.stack.imgur.com/768xM.png)
+![alt text](http://i.stack.imgur.com/768xM.png "4:2:0")
 
 ######Problem 4: Calculate PSNR
 Implement a function that accepts two argumetns, which is an original image and areconstructed image and returns Peak Signal-to-Noise Ratio (PSNR). The PSNR is calcualted as follows
