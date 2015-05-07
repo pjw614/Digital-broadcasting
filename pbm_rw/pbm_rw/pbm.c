@@ -10,13 +10,13 @@
 
 
 
-char *readImage(const char *file_name, unsigned long *length, struct image_header *ih){
+unsigned char *readImage(const char *file_name, unsigned long *length, struct image_header *ih){
     FILE *pgmFile;
     int i, j;
     int pixel;
 
-    char *image_data;
-    char *pix;
+    unsigned char *image_data;
+    unsigned char *pix;
     
     pgmFile = fopen(file_name, "rb");
     if (pgmFile == NULL) {
@@ -39,9 +39,9 @@ char *readImage(const char *file_name, unsigned long *length, struct image_heade
     
 
     if (strcmp(ih->format, "P5") == 0){
-        image_data = (char *)malloc(ih->rows * ih->cols);
+        image_data = (unsigned char *)malloc(ih->rows * ih->cols);
     }else{
-        image_data = (char *)malloc(3 * ih->rows * ih->cols);
+        image_data = (unsigned char *)malloc(3 * ih->rows * ih->cols);
     }
     
     
@@ -71,10 +71,10 @@ char *readImage(const char *file_name, unsigned long *length, struct image_heade
     return image_data;
 }
 //---------------------------------------------------------------------------------------------
-void writeImage(const char *filename, const char *image_data, const struct image_header ih){
+void writeImage(const char *filename, const unsigned char *image_data, const struct image_header ih){
     FILE *pgmFile;
     int i, j;
-    const char *pix;
+    const unsigned char *pix;
     
     pgmFile = fopen(filename, "wb");
     if (pgmFile == NULL) {

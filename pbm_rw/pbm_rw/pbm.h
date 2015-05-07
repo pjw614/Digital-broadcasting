@@ -20,7 +20,7 @@ struct image_header{
     int levels;     //Number of gray/each color levels
 };
 
-char *readImage(const char *file_name, unsigned long *length, struct image_header *ih);
-void writeImage(const char *filename, const char *image_data, const struct image_header ih);
+unsigned char *readImage(const char *file_name, unsigned long *length, struct image_header *ih);
+void writeImage(const char *filename, const unsigned char *image_data, const struct image_header ih);
 
 #endif

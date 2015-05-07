@@ -47,4 +47,12 @@ void ycbcr2rgb(struct YCbCr *ycc, struct RGB *rgb );
 void macroblock2ycbcr (struct RGB *macro16x16,  struct YCbCr_MACRO *ycbcr_macro );
 // Convert the six 8x8 YCbCr sample blocks to RGB macroblock(16x16).
 void ycbcr2macroblock(struct YCbCr_MACRO *ycbcr_macro, struct RGB *macro16x16 );
+
+void save_yccblocks( struct YCbCr_MACRO *ycbcr_macro, FILE *fpo );
+void encode (struct RGBImage *image, FILE *fpo );
+int get_yccblocks(struct YCbCr_MACRO *ycbcr_macro, FILE *fpi );
+int decode_yccFrame (struct RGBImage *image, FILE *fpi );
+
+
 #endif /* defined(__pbm_rw__img_proc__) */
+
