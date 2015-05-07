@@ -34,10 +34,14 @@ struct RGBImage {
     unsigned char *ibuf;
 };
 
-//void rgb2ycbcr(char *image, int cols, int rows);
-//void ycbcr2rgb(char *input, int cols, int rows);
 void rgb2ycbcr(const struct RGB *rgb, struct YCbCr *ycc );
 void rgb2y(const struct RGB *rgb, unsigned char  *y);
+void chop ( int *r, int *g, int *b );
+void ycbcr2rgb(struct YCbCr *ycc, struct RGB *rgb );
+
+//void rgb2ycbcr(char *image, int cols, int rows);
+//void ycbcr2rgb(char *input, int cols, int rows);
+
 
 // Convert an RGB macro block ( 16x16 ) to 4:2:0 YCbCr sample blocks ( six 8x8 blocks ).
 void macroblock2ycbcr (struct RGB *macro16x16,  struct YCbCr_MACRO *ycbcr_macro );
