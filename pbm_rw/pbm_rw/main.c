@@ -25,16 +25,18 @@ int main(int argc, const char * argv[]) {
     
     struct RGBImage image = {ih.cols, ih.rows, data}; //initialize image
     
-    fp = fopen("/Users/artemlenskiy/Documents/Research/XCode Projects/Digital_broadcasting2/pbm_rw/pbm_rw/temp.ycc", "ab+");
+    fp = fopen("/home/user/workspace/db/temp.ycc", "b+");
     encode (&image, fp );
     fclose(fp);
     
     // now read temp.ycc and decode the image
     // then save decode image
-    
+    fp = fopen("/home/user/workspace/db/temp.ycc", "r");
+    decode_yccFrame (&image, fp);
 
+    
     if(data != NULL)
-        writeImage(argv[2], data, ih);
+        writeImage(argv[2], image.ibuf, ih);
     
     return 0;
 }
