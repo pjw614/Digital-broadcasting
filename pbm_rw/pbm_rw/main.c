@@ -25,7 +25,7 @@ int main(int argc, const char * argv[]) {
     
     struct RGBImage image = {ih.cols, ih.rows, data}; //initialize image
     
-    fp = fopen("/home/user/workspace/db/temp.ycc", "b+");
+    fp = fopen("/home/user/workspace/db/temp.ycc", "wb+");
     encode (&image, fp );
     fclose(fp);
     
