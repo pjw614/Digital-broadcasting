@@ -7,6 +7,7 @@
 //
 
 #include "pbm.h"
+#include "img_proc.h"
 
 int main(int argc, const char * argv[]) {
 
@@ -20,6 +21,9 @@ int main(int argc, const char * argv[]) {
     }
     
     data = readImage(argv[1], &data_size, &ih);
+    rgb2ycbcr(data, ih.cols, ih.rows);
+    ycbcr2rgb(data, ih.cols, ih.rows);
+    
     if(data != NULL)
         writeImage(argv[2], data, ih);
     
