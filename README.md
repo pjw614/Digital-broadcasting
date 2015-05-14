@@ -132,3 +132,18 @@ int main() {
 
 Modify your program in such way that its source size is minimized, then calculate its entropy and Kolmogorov complexity then compare them with the original code’s entropies and Kolmogorov complexity.
 
+###Lab: Block representation
+
+###Lab: Discrete cosine transform
+
+######Problem 1. Build and test the DCT and IDCT functions.
+
+######Problem 2. Modify the above program by increasing the block size to 256 by 256, and instead of using an artificially generated input image, load a grayscale image and use it as an input.
+
+######Problem 3. In the previous problem after calculating DCT set high frequency components  (u < 32 and v < 32) to zero and then invoke IDCT.
+
+######Problem 4. Implement a function that splits an input image into blocks of 8 by 8 size and call DCT and IDCT on each block.  For partitioning an image into blocks see previous lab.
+
+######Problem 5. In the previous problem set higher frequency components in each DCT block to zero.
+ 
+ 
