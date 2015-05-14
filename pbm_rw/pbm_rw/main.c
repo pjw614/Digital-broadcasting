@@ -25,15 +25,15 @@ int main(int argc, const char * argv[]) {
     
     struct RGBImage image = {ih.cols, ih.rows, data}; //initialize image
     
-    fp = fopen("/home/user/workspace/db/temp.ycc", "wb+");
+    fp = fopen("/Users/artemlenskiy/Desktop/temp.ycc", "wb+");
     encode (&image, fp );
     fclose(fp);
     
     // now read temp.ycc and decode the image
     // then save decode image
-    fp = fopen("/home/user/workspace/db/temp.ycc", "r");
+    fp = fopen("/Users/artemlenskiy/Desktop/temp.ycc", "r");
     decode_yccFrame (&image, fp);
-
+    fclose(fp);
     
     if(data != NULL)
         writeImage(argv[2], image.ibuf, ih);

@@ -86,8 +86,7 @@ void rgb2y(const struct RGB *rgb, unsigned char  *y){
     *y = (short)((19595 * rgb->R + 38470 * rgb->G + 7471 * rgb->B ) >> 16);
 }
 //limit value to lie within [0,255]
-void chop ( int *r, int *g, int *b )
-{
+void chop ( int *r, int *g, int *b ){
     if ( *r < 0 ) *r = 0;
     else if ( *r > 255 ) *r = 255;
     if ( *g < 0 ) *g = 0;
@@ -167,13 +166,13 @@ void save_yccblocks( struct YCbCr_MACRO *ycbcr_macro, FILE *fpo ){
     for ( block = 0; block < 4; block++ ) {
         if ( block < 2 )
             //points to beginning of block
-            py = ( unsigned char * ) &ycbcr_macro->Y + 8*block;
+            py = (unsigned char *) &ycbcr_macro->Y + 8*block;
         else
-            py =(unsigned char *)&ycbcr_macro->Y+128+8*(block-2);
+            py = (unsigned char *) &ycbcr_macro->Y+128+8*(block-2);
         for ( i = 0; i < 8; i++ ) { //one sample-block
             if ( i > 0 ) py += 16;    //advance py by 16( one row )
             for ( j = 0; j < 8; j++ ) {
-                putc ( ( int )  *(py+j),fpo);   //save one byte of data
+                putc ( ( int )  *(py+j), fpo);   //save one byte of data
             }
         }
     }
@@ -188,7 +187,8 @@ void save_yccblocks( struct YCbCr_MACRO *ycbcr_macro, FILE *fpo ){
     for ( i = 0; i < 8; ++i ) {
         for ( j = 0; j < 8; ++j ) {
             putc( ( int ) ycbcr_macro->Cr[k++], fpo );
-        } }
+        }
+    }
 }
 /*
  Convert RGB to YCbCr and save the converted data.
@@ -196,21 +196,23 @@ void save_yccblocks( struct YCbCr_MACRO *ycbcr_macro, FILE *fpo ){
 void encode (struct RGBImage *image, FILE *fpo ){
     short row, col, i, j, r;
     struct RGB macro16x16[256];    //16x16 pixel macroblock;24-bit RGB pixel
+    struct RGB macro16x16_test[256];
     struct YCbCr_MACRO ycbcr_macro;//macroblock for YCbCr samples
     struct RGB *p;                 //pointer to an RGB pixel
     static int nframe = 0;
+    
     for ( row = 0; row < image->height; row += 16 ) {
         for ( col = 0; col < image->width; col += 16 ) {
             //points to beginning of macroblock
-            p=(struct RGB *)image->ibuf+(row*image->width + col);
+            p = (struct RGB *)image->ibuf+(row * image->width + col);
             r = 0;                    //note pointer arithmetic
             for ( i = 0; i < 16; ++i ) {
-                for ( j = 0; j < 16; ++j ) {
+                for ( j = 0; j < 16; ++j )
                     macro16x16[r++] = (struct RGB) *p++;
-                }
                 p += (image->width-16); //points to next row within macroblock
             }
-            macroblock2ycbcr ( macro16x16,  &ycbcr_macro );//RGB to YCbCr
+            macroblock2ycbcr(macro16x16,  &ycbcr_macro );//RGB to YCbCr
+            ycbcr2macroblock(&ycbcr_macro, macro16x16_test);
             save_yccblocks( &ycbcr_macro, fpo );  //save one YCbCr macroblock
         } //for col
     } //for row
@@ -232,13 +234,13 @@ int get_yccblocks(struct YCbCr_MACRO *ycbcr_macro, FILE *fpi ){
     for ( block = 0; block < 4; block++ ) {
         if ( block < 2 )
             //points to beginning of block
-            py = ( unsigned char * ) &ycbcr_macro->Y + 8*block;
+            py = ( unsigned char * ) &ycbcr_macro->Y + 8 * block;
         else
-            py = (unsigned char *)&ycbcr_macro->Y+128+8*(block-2);
+            py = (unsigned char *)&ycbcr_macro->Y + 128 + 8 * (block-2);
         for ( i = 0; i < 8; i++ ) {      //one sample-block
             if ( i > 0 ) py += 16;         //advance py by 16 (one row)
             for ( j = 0; j < 8; j++ ) {
-                if((c=getc(fpi)) ==EOF)//readonebyte break;
+                if((c = getc(fpi)) == EOF)//readonebyte break;
                     *(py + j) = (unsigned char) c; //save in YCbCr_MACRO struct
                 n++;
             } //for j
