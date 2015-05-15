@@ -91,7 +91,7 @@ void chop ( int *r, int *g, int *b ){
     else if ( *r > 255 ) *r = 255;
     if ( *g < 0 ) *g = 0;
     else if ( *g > 255 ) *g = 255;
-    if ( b < 0 ) b = 0;
+    if ( *b < 0 ) *b = 0;
     else if ( *b > 255 ) *b = 255;
 }
 /*
@@ -134,6 +134,7 @@ void macroblock2ycbcr (struct RGB *macro16x16,  struct YCbCr_MACRO *ycbcr_macro 
         }
     }
 }
+
 // Convert the six 8x8 YCbCr sample blocks to RGB macroblock(16x16).
 void ycbcr2macroblock(struct YCbCr_MACRO *ycbcr_macro, struct RGB *macro16x16 ){
     int i, j, k, r;
@@ -148,7 +149,12 @@ void ycbcr2macroblock(struct YCbCr_MACRO *ycbcr_macro, struct RGB *macro16x16 ){
                 ycb.Cr = ycbcr_macro->Cr[k];
                 ycbcr2rgb ( &ycb, &macro16x16[r]);
                 k++;
+            } else if(!( i & 1 )) {
+                ycb.Y = ycbcr_macro->Y[r];
+                ycbcr2rgb( &ycb, &macro16x16[r] );
             } else {
+                ycb.Cb = ycbcr_macro->Cb[k - 8 + j/2];
+                ycb.Cr = ycbcr_macro->Cr[k - 8 + j/2];
                 ycb.Y = ycbcr_macro->Y[r];
                 ycbcr2rgb( &ycb, &macro16x16[r] );
             }
@@ -196,7 +202,7 @@ void save_yccblocks( struct YCbCr_MACRO *ycbcr_macro, FILE *fpo ){
 void encode (struct RGBImage *image, FILE *fpo ){
     short row, col, i, j, r;
     struct RGB macro16x16[256];    //16x16 pixel macroblock;24-bit RGB pixel
-    struct RGB macro16x16_test[256];
+   // struct RGB macro16x16_test[256];
     struct YCbCr_MACRO ycbcr_macro;//macroblock for YCbCr samples
     struct RGB *p;                 //pointer to an RGB pixel
     static int nframe = 0;
@@ -212,7 +218,7 @@ void encode (struct RGBImage *image, FILE *fpo ){
                 p += (image->width-16); //points to next row within macroblock
             }
             macroblock2ycbcr(macro16x16,  &ycbcr_macro );//RGB to YCbCr
-            ycbcr2macroblock(&ycbcr_macro, macro16x16_test);
+            //ycbcr2macroblock(&ycbcr_macro, macro16x16_test);
             save_yccblocks( &ycbcr_macro, fpo );  //save one YCbCr macroblock
         } //for col
     } //for row
