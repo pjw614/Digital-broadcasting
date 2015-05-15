@@ -246,7 +246,7 @@ int get_yccblocks(struct YCbCr_MACRO *ycbcr_macro, FILE *fpi ){
         for ( i = 0; i < 8; i++ ) {      //one sample-block
             if ( i > 0 ) py += 16;         //advance py by 16 (one row)
             for ( j = 0; j < 8; j++ ) {
-                if((c = getc(fpi)) == EOF)//readonebyte break;
+                if((c = getc(fpi)) != EOF)//readonebyte break;
                     *(py + j) = (unsigned char) c; //save in YCbCr_MACRO struct
                 n++;
             } //for j
