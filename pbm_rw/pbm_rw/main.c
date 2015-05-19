@@ -8,9 +8,10 @@
 
 #include "pbm.h"
 #include "img_proc.h"
+#include <math.h>
+
 
 int main(int argc, const char * argv[]) {
-
     unsigned char *data;
     struct image_header ih;
     unsigned long data_size;

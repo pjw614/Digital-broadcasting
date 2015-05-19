@@ -114,7 +114,7 @@ __./entropy < main.c__
 //randtest.cpp: Generates 10000 bytes of data
 //Compile: gcc -o randtest randtest.cpp
 #include <stdio.h>
-#include <stdlib.h>
+__./entropy < main.c__#include <stdlib.h>
 #include <math.h>
 int main() {
     int x;
@@ -136,14 +136,63 @@ Modify your program in such way that its source size is minimized, then calculat
 
 ###Lab: Discrete cosine transform
 
-######Problem 1. Build and test the DCT and IDCT functions.
+######Problem 1.  Test the DCT and IDCT functions
 
-######Problem 2. Modify the above program by increasing the block size to 256 by 256, and instead of using an artificially generated input image, load a grayscale image and use it as an input.
+Build and test the DCT and IDCT functions.
 
-######Problem 3. In the previous problem after calculating DCT set high frequency components  (u < 32 and v < 32) to zero and then invoke IDCT.
+######Problem 2. Increase the block size and test it on an image of the same size
 
-######Problem 4. Implement a function that splits an input image into blocks of 8 by 8 size and call DCT and IDCT on each block.  For partitioning an image into blocks see previous lab.
+Modify the above program by increasing the block size to 64 by 64, and instead of using an artificially generated input image, load a grayscale image 64 x 64  and use it as an input.
 
-######Problem 5. In the previous problem set higher frequency components in each DCT block to zero.
+######Problem 3. Implement simple frequency filtering
+
+* After calculating DCT in the previous problem set high frequency components  (i.e 64 < u + v) to zero and then invoke IDCT.
+* Repeate the same experiemnt but this time remove lowe frequencies (i.e. u + v < 8) but keep the zero frequency F(0,0) untouched.
+
+######Problem 4. Split an image into blocks and apply DCT and IDCT on each of them
+
+Implement a function that splits an input image into blocks of 8 by 8 size and call DCT and IDCT on each block. For partitioning an image into blocks see previous lab.
+
+######Problem 5. Block based filtering
+
+In the previous problem set higher frequency components in each DCT block to zero.
+
  
- 
+###Lab:  Image compression via DCT coefficients quantization and Run-level coding
+
+So far we implemented RGB to YCbCr conversion and splitting an image into 8 x 8 blocks following 4:2:0 convention.
+We implemented a simple DCT and IDCT algorithms. In this lab the functions for forward and inverse quantization,
+zigzag reordering and run-level encoding and decoding are studied. The task of this lab is
+to test presented functions in one program. The programs should read a PBM file, compress it
+using the above functions and then decompress it and stored in a file.
+
+######Problem 1.  Implement an encoder program that performs the following steps
+* Read a grayscale P5 type PBM image
+* Split into 8 x 8 blocks and apply DCT to every block
+* Quantize DCT coefficients
+* Apply zigzag reordering
+* Apply run-level encoding and store the codes in `Run3D  runs[64];`
+* Print them on the screen, while running the program redirect standard stream to a file i.e.
+__./encode image.pbm > run3d.code__
+
+
+######Problem 2.  Implement a decoder program that performs the following steps
+
+* Read run-level code from a standard input. To do so, redirect standard input form a keyboard to from a file i.e.
+__./encode image_t.pbm < run3d.code__
+* Decode run-level code
+* Apply inverse zigzard ordering
+* Inverse quantize DCT coefficients
+* Perform IDCT or every DCT block, and assemble the image
+* Store the reconstructed image into a PBM file
+
+
+######Problem 3. Compare original and reconstructed images
+
+* Read original image.pbm and reconstructed image_t.pbm
+* Calculate and print out the PSNR. The PSNR is calculated as follows
+
+`MSE = (1/(m*n))*sum(sum((f-g).^2))`
+
+`PSNR = 20*log(max(max(f)))/((MSE)^0.5)`
+
